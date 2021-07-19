@@ -3,7 +3,7 @@ __asm__("jmpl $0x0000, $main\n");
 
 void kern_putc(const int c) {
 	__asm__ __volatile__("int $0x10"::"a"(0x0e00|c),"b"(0x0007));
-	// "a"(0x0e00|c)
+	// "a"(0x0e00|c),"b"(0x0007)
 	// |- a is ax register
 	// |- 0x0e00 is ah (0x0e) and al(0x00) register (little-endian)
 	// |- b is bx register
@@ -25,10 +25,10 @@ void kern_printc(const char *c) {
 
 
 void main() {
-	kern_printc("Hello! Welcome!");
+	kern_printc("It's EeveeOS.");
 	while(1){
 		/*
-			Doing nothing, because if I call kern_putc('A'),
+			Doing nothing, because if I call kern_putc('A') (without while(1){}),
 			Output will be: A AA[smile]AAAAAAAAA
 		*/
 	}
