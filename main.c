@@ -28,7 +28,7 @@ void kern_movecursor(const int x, const int y){
 }
 
 void main() {
-	kern_printc("It's EeveeOS.");
+	kern_printc("It's EeveeOS. Evoi!");
 	while(1){
 		/*
 			Doing nothing, because if I call kern_putc('A') (without while(1){}),
