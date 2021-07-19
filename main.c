@@ -23,6 +23,9 @@ void kern_printc(const char *c) {
 	}
 }
 
+void kern_movecursor(const int x, const int y){
+	__asm__ __volatile__("int $0x10"::"a"(0x0200),"d"(y|x));
+}
 
 void main() {
 	kern_printc("It's EeveeOS.");
