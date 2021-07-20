@@ -24,10 +24,18 @@ void kern_printc(const char *c) {
 }
 
 void kern_movecursor(const int x, const int y){
-	__asm__ __volatile__("int $0x10"::"a"(0x0200),"d"(y|x));
+	//__asm__ __volatile__("int $0x10"::"a"(0x0200),"d"(y|x));
+	__asm__ __volatile__("int $0x10"::"a"(0x0200),"b"(0x0007),"d"(y|(x*80)));
+}
+
+void kern_clearscreen(){
+	kern_movecursor(0,0);	
+	__asm__ __volatile__("int $0x10"::"a"(0x0600),"b"(0x0007),"c"(0x0000),"d"(0x184f));
 }
 
 void main() {
+	kern_clearscreen();
+	//kern_movecursor(80/2,24/2);
 	kern_printc("It's EeveeOS. Evoi!");
 	while(1){
 		/*
