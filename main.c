@@ -1,42 +1,40 @@
 __asm__(".code16\n");
 __asm__("jmpl $0x0000, $main\n");
 
-void kern_putc(const int c) {
-	__asm__ __volatile__("int $0x10"::"a"(0x0e00|c),"b"(0x0007));
-	// "a"(0x0e00|c),"b"(0x0007)
-	// |- a is ax register
-	// |- 0x0e00 is ah (0x0e) and al(0x00) register (little-endian)
-	// |- b is bx register
-	// |- 0x0007 is bh (0x00) and bl(0x07) register (little-endian)
+#include <stdint.h>
+#define VGA_TEXT 0xb8000
 
-	// ==int 0x10==
-	// ah is function
-	// al is char to print
-	// bh is video page
-	// bl is color
+uint16_t* vga = (uint16_t*)VGA_TEXT;
+int pos = 0;
+
+void kern_putc(const int c, uint8_t fc, uint8_t bc) {
+	//__asm__ __volatile__("int $0x10"::"a"(0x0e00|c),"b"(0x0007));
+	uint16_t ax = 0;
+	uint8_t ah = 0, al = 0;
+	ah = bc;
+	ah <<= 4;
+	ah |= fc;
+	ax=ah;
+	ax<<=8;
+	al=c;
+	ax|=al;
+	vga[pos]=ax;
+	pos++;
 }
 
 void kern_printc(const char *c) {
 	while(*c) {
-		__asm__ __volatile__("int $0x10"::"a"(0x0e00|*c),"b"(0x0007));
-	++c;
+		kern_putc(*c,0,15);
+		//*(volatile uint8_t*)(VGA_TEXT)=*c++;
 	}
 }
 
-void kern_movecursor(const int x, const int y){
-	//__asm__ __volatile__("int $0x10"::"a"(0x0200),"d"(y|x));
-	__asm__ __volatile__("int $0x10"::"a"(0x0200),"b"(0x0007),"d"(y|(x*80)));
-}
-
-void kern_clearscreen(){
-	kern_movecursor(0,0);	
-	__asm__ __volatile__("int $0x10"::"a"(0x0600),"b"(0x0007),"c"(0x0000),"d"(0x184f));
-}
-
 void main() {
-	kern_clearscreen();
-	//kern_movecursor(80/2,24/2);
-	kern_printc("It's EeveeOS. Evoi!");
+	//kern_movecursor(1,11);
+	//kern_printc("It's EeveeOS! Evoi-evo!");
+	kern_putc('a',15,0);
+	kern_putc('a'+1,15,0);
+	kern_putc('a'+2,15,0);
 	while(1){
 		/*
 			Doing nothing, because if I call kern_putc('A') (without while(1){}),
