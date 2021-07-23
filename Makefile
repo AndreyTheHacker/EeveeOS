@@ -6,6 +6,7 @@ all:
 	i686-linux-gnu-gcc -Wall -c -g -ffreestanding -O2 -march=i686 main.c -o main.o
 	i686-linux-gnu-ld -static -Tlink.ld -nostdlib --nmagic -o main.elf main.o
 	i686-linux-gnu-objcopy -O binary main.elf build/main.bin
+
 	rm main.o main.elf
 	dd if=build/main.bin of=total.img bs=512 seek=1 conv=notrunc
 	qemu-system-x86_64 -s total.img
