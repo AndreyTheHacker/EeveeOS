@@ -22,7 +22,11 @@ void _kern_putc(char c, unsigned short fc, unsigned short bc) {
 }
 
 void kern_putc(char c) {
+	if(c!='\n'){
 	_kern_putc(c,14,0);
+	}else{
+		vga_pos=vga_pos+(80-(vga_pos%80));
+	}
 }
 
 int kern_strlen(const char* str)
@@ -36,14 +40,8 @@ int kern_strlen(const char* str)
 
 void kern_printc(char *c) {
 	while(*c){
-		if(*c=='\n'){
-			vga_pos+=(80-vga_pos);
-			c++;
-			vga_pos--;
-		}
 		kern_putc(*c);
 		c++;
-	
 	}
 }
 

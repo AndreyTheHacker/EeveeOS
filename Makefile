@@ -6,7 +6,7 @@ all:
 	cd $(STDIO_LIB) && make 
 	as --32 src/boot.asm -o temps/boot.o
 	$(PREFIX)gcc $(CFLAGS) src/main.c -o temps/main.o
-	$(PREFIX)ld $(LDFLAGS) temps/boot.o $(STDIO_LIB)/stdio.o temps/main.o -o build/main.bin
+	$(PREFIX)ld $(LDFLAGS) temps/boot.o $(STDIO_LIB)/stdio.o $(STDIO_LIB)/ports.o temps/main.o -o build/main.bin
 	#setup
 	mkdir build/boot/grub/ -p || true
 	cp src/grub.cfg build/boot/grub/grub.cfg	
