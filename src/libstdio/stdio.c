@@ -36,8 +36,14 @@ int kern_strlen(const char* str)
 
 void kern_printc(char *c) {
 	while(*c){
+		if(*c=='\n'){
+			vga_pos+=(80-vga_pos);
+			c++;
+			vga_pos--;
+		}
 		kern_putc(*c);
 		c++;
+	
 	}
 }
 
