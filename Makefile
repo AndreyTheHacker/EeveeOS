@@ -1,9 +1,12 @@
+include defs.mk
+
 all:
 	mkdir build || true
 	mkdir temps || true
+	cd $(STDIO_LIB) && make 
 	as --32 src/boot.asm -o temps/boot.o
-	i686-linux-gnu-gcc -Wall -Wextra -std=gnu99 -c -ffreestanding -O2 -m32 src/main.c -o temps/main.o
-	i686-linux-gnu-ld -T src/link.ld -nostdlib --nmagic temps/boot.o temps/main.o -o build/main.bin
+	$(PREFIX)gcc $(CFLAGS) src/main.c -o temps/main.o
+	$(PREFIX)ld $(LDFLAGS) temps/boot.o $(STDIO_LIB)/stdio.o temps/main.o -o build/main.bin
 	#setup
 	mkdir build/boot/grub/ -p || true
 	cp src/grub.cfg build/boot/grub/grub.cfg	
@@ -13,4 +16,5 @@ all:
 clean:
 	rm build/* -r || true
 	rm temps/* -r || true
+	rm $(STDIO_LIB)/*.o -r || true
 	rm total.iso || true
