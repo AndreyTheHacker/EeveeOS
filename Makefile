@@ -11,5 +11,6 @@ all:
 	qemu-system-x86_64 -s -cdrom total.iso
 
 clean:
-	rm build/*.bin || true
+	rm build/* -r || true
+	rm temps/* -r || true
 	rm total.iso || true
