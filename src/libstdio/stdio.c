@@ -1,7 +1,13 @@
 #include "stdio.h"
+#include "ports.h"
 #define VGA_TEXT 0xb8000
+
 unsigned short* vga = (unsigned short*)VGA_TEXT;
 unsigned int vga_pos = 0;
+
+void kern_vgashift(unsigned int val) {
+	vga_pos+=val;
+}
 
 unsigned short kern_generate_vga(unsigned char c, unsigned short fc, unsigned short bc) {
 	unsigned short ax = 0;
