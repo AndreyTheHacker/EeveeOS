@@ -9,6 +9,8 @@ void kern_vgashift(unsigned int val) {
 }
 
 void _kern_vga_putat_xy(unsigned char c, unsigned int x, unsigned int y, unsigned short fc, unsigned short bc) {
+	//y*=2;
+	//x*=2;
 	unsigned short ax = 0;
 	unsigned char ah = 0/*, al = 0*/;
 	ah = bc;
@@ -27,6 +29,7 @@ void kern_vga_putat_xy(unsigned char c, unsigned int x, unsigned int y) {
 }
 
 void _kern_vga_putat(unsigned char c, int offset, unsigned short fc, unsigned short bc) {
+	offset*=2;
 	unsigned short ax = 0;
 	unsigned char ah = 0/*, al = 0*/;
 	ah = bc;
@@ -52,11 +55,11 @@ void kern_memcpy(char *source, char *dest, int nbytes) {
 }
 
 void kern_set_cursor(int offset) {
-    //offset /= 2;
+    offset /= 2;
     kern_outb(VGA_CTRL_REGISTER, VGA_OFFSET_HIGH);
-    kern_outb(VGA_DATA_REGISTER, (unsigned short) (offset >> 8));
+    kern_outb(VGA_DATA_REGISTER, (unsigned char) (offset >> 8));
     kern_outb(VGA_CTRL_REGISTER, VGA_OFFSET_LOW);
-    kern_outb(VGA_DATA_REGISTER, (unsigned short) (offset & 0xff));
+    kern_outb(VGA_DATA_REGISTER, (unsigned char) (offset & 0xff));
 }
 
 int kern_get_cursor() {
@@ -64,7 +67,7 @@ int kern_get_cursor() {
     int offset = kern_inb(VGA_DATA_REGISTER) << 8;
     kern_outb(VGA_CTRL_REGISTER, VGA_OFFSET_LOW);
     offset += kern_inb(VGA_DATA_REGISTER);
-    return offset /* *2 */;
+    return offset*2;
 }
 /*
 unsigned short kern_generate_vga(unsigned char c, unsigned short fc, unsigned short bc) {
@@ -113,7 +116,7 @@ void kern_putc(char c) {
 	}else{
 		vga_pos=vga_pos+(160-(vga_pos%160));
 	}
-	//kern_set_cursor(kern_get_cursor());
+	kern_set_cursor(kern_get_cursor());
 }
 
 int kern_strlen(const char* str)
@@ -152,15 +155,15 @@ void kern_printc(char *c) {
 }
 
 unsigned int kern_vga_getpos() {
-	return vga_pos;
+	return 2*vga_pos;
 }
 
 unsigned int kern_vga_getpos_x() {
-	return vga_pos%80;
+	return 2*vga_pos%80;
 }
 
 unsigned int kern_vga_getpos_y() {
-	return (int)(vga_pos/80);
+	return 2*(int)(vga_pos/80);
 }
 
 int kern_vga_getpos_char(int x, int y) {
