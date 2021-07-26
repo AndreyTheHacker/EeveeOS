@@ -1,5 +1,5 @@
 .set MAGIC,    0x1BADB002
-.set FLAGS,    0
+.set FLAGS,    0x00000002
 .set CHECKSUM, -(MAGIC + FLAGS)
 .section .multiboot
 .long MAGIC
@@ -16,6 +16,8 @@ stackTop:
 
 _start:
 	mov $stackTop, %esp
+	pushl %ebx
+	pushl %eax
 	call main
 	cli
 
