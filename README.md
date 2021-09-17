@@ -1,5 +1,5 @@
 # EeveeOS
-EeveeOS is 16-bit singletasking "operating system" written in C
+EeveeOS is 32-bit singletasking "operating system" written in C
 # Installation
 For successful build, install NASM, QEMU and gcc compiler
 
