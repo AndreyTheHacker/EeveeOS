@@ -48,8 +48,7 @@ void kern_vga_putat(unsigned char c, int offset) {
 }
 
 void kern_memcpy(char *source, char *dest, int nbytes) {
-    int i;
-    for (i = 0; i < nbytes; i++) {
+    for (int i = 0; i < nbytes; i++) {
         *(dest + i) = *(source + i);
     }
 }
@@ -132,7 +131,7 @@ int kern_scroll_ln(int offset) {
     kern_memcpy(
             (char *)(kern_vga_getpos_char(0,1) + VGA_TEXT), // source [vga:80]
             (char *)(kern_vga_getpos_char(0,0) + VGA_TEXT), // destin [vga:0]
-           80*24*2 // 1920
+           80*25*2 // 1920
     );
     for (int col = 0; col < 80; col++) {
        _kern_vga_putat(' ', kern_vga_getpos_char(col, 24),0,0);

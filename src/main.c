@@ -46,6 +46,7 @@ void main(unsigned long magic, unsigned long addr) { // GRUB
 	char loadaddr[32];
 	char mgc[32];
 	char flgs[32];
+	char mct[8];
 	kern_itoa(mb->mem_lower, memlw);
 	kern_itoa(mb->mem_upper, memup);
 	kern_itoh(magic, ' ', mgc);
@@ -67,6 +68,24 @@ void main(unsigned long magic, unsigned long addr) { // GRUB
 	kern_printc(flgs);
 	kern_printc("\n");
 	kern_printc("Keyboard drivers are built-in, not loading...\n");
+	kern_printc("Paging enabled in boot...\n");
+	float mc = 1000;
+	while (mc/7>0){
+		kern_itoa(mc, mct);
+		kern_printc(mct);
+		kern_printc(" - 7 = ");
+		mc-=7;
+		mct[0] = 0;
+		mct[1] = 0;
+		mct[2] = 0;
+		mct[3] = 0;
+		kern_itoa(mc, mct);
+		kern_printc(mct);
+		kern_printc(" JUST FOR DEBUG");
+		kern_printc("\n");
+	}
+	kern_printc("ZapeKin Petya krutoi chel.\n");
+	kern_printc("    1000-7");
 	//__asm__ __volatile__("int $0x10"::"a"(0x4F02),"b"(0x118));  // What a hell? GRUB disallows to enter graphical mode
 	//__asm__ __volatile__("int $0x10"::"a"(0x0013));	// And this not working
 	while(1){
