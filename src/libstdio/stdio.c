@@ -1,6 +1,6 @@
 #include "stdio.h"
 #include "ports.h"
-
+#include "string.h"
 unsigned char* vga = (unsigned char*)VGA_TEXT;
 unsigned int vga_pos = 0;
 
@@ -45,12 +45,6 @@ void _kern_vga_putat(unsigned char c, int offset, unsigned short fc, unsigned sh
 
 void kern_vga_putat(unsigned char c, int offset) {
 	_kern_vga_putat(c,offset,14,0);
-}
-
-void kern_memcpy(char *source, char *dest, int nbytes) {
-    for (int i = 0; i < nbytes; i++) {
-        *(dest + i) = *(source + i);
-    }
 }
 
 void kern_set_cursor(int offset) {
@@ -118,14 +112,6 @@ void kern_putc(char c) {
 	kern_set_cursor(kern_get_cursor());
 }
 
-int kern_strlen(const char* str)
-{
-  unsigned int length = 0;
-  while(str[length]==0){
-	length++;
-  }
-  return length;
-}
 
 int kern_scroll_ln(int offset) {
     kern_memcpy(

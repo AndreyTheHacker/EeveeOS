@@ -24,5 +24,5 @@ SECTIONS
 		*(COMMON)
 		*(.bss)
 	}
-
+	kend = .;
 }

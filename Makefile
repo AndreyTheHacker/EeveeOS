@@ -5,9 +5,10 @@ all:
 	mkdir temps || true
 	cd $(STDIO_LIB) && make 
 	cd $(GDT_LIB) && make 
+	cd $(MEMORY) && make 
 	as --32 src/boot.s -o temps/boot.o
 	$(PREFIX)gcc $(CFLAGS) src/main.c -o temps/main.o
-	$(PREFIX)ld $(LDFLAGS) temps/boot.o $(STDIO_LIB_OBJS) $(GDT_LIB_OBJS) temps/main.o -o build/main.bin
+	$(PREFIX)ld $(LDFLAGS) temps/boot.o $(STDIO_LIB_OBJS) $(GDT_LIB_OBJS) $(MEM_OBJS) temps/main.o -o build/main.bin
 	#setup
 	mkdir build/boot/grub/ -p || true
 	cp src/grub.cfg build/boot/grub/grub.cfg	
@@ -19,4 +20,5 @@ clean:
 	rm temps/* -r || true
 	rm $(STDIO_LIB)/*.o -r || true
 	rm $(GDT_LIB)/*.o -r || true
+	rm $(MEMORY)/*.o -r || true
 	rm total.iso || true

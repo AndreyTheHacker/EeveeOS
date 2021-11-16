@@ -6,7 +6,7 @@ char kern_getch()
   char ch = 0;
   while((ch = kern_inb(0x60)) != 0){
     if(ch > 0)
-      return ch;
+      return ch;	
   }
   return ch;
 }

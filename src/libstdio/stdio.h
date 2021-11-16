@@ -10,11 +10,10 @@ void _kern_vga_putat(unsigned char c, int offset, unsigned short fc, unsigned sh
 void kern_vga_putat_xy(unsigned char c, unsigned int x, unsigned int y);
 void _kern_vga_putat_xy(unsigned char c, unsigned int x, unsigned int y, unsigned short fc, unsigned short bc);
 void kern_putc(char c);
-int kern_strlen(const char* str);
 void kern_printc(char *c);
 void kern_cls();
 void kern_vgashift(unsigned int val);
-void kern_memcpy(char *source, char *dest, int nbytes);
+
 unsigned int kern_vga_getpos();
 unsigned int kern_vga_getpos_x();
 unsigned int kern_vga_getpos_y();

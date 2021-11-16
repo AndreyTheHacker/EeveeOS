@@ -4,3 +4,4 @@ all:
 	$(PREFIX)gcc $(CFLAGS) stdio.c -o stdio.o
 	$(PREFIX)gcc $(CFLAGS) ports.c -o ports.o
 	$(PREFIX)gcc $(CFLAGS) keyboard.c -o keyboard.o
+	$(PREFIX)gcc $(CFLAGS) string.c -o string.o

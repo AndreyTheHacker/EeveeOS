@@ -1,5 +1,7 @@
 include ../../defs.mk
 
 all:
-	nasm -felf32 gdt_helper.asm	-o build/gdt_helper.o
-	$(PREFIX)gcc $(CFLAGS) gdt.c build/gdt_helper.o -c -o build/gdt.o
+	nasm -felf32 gdt_.asm	-o gdt_.o
+	nasm -felf32 idt_.asm	-o idt_.o
+	$(PREFIX)gcc $(CFLAGS) gdt.c -c -o gdt.o
+	$(PREFIX)ld gdt_.o idt_.o -o desctab.o
