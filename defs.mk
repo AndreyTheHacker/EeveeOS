@@ -11,3 +11,6 @@ GDT_LIB_OBJS = $(GDT_LIB)/desctab.o
 
 MEMORY = src/memory/
 MEM_OBJS = $(MEMORY)/memmgr.o
+
+MISC = src/misc/
+MISC_OBJS = $(MISC)/spinlock.o

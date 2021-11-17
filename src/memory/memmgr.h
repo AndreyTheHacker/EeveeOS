@@ -10,7 +10,7 @@
 
 #define BLOCK_ALIGN(addr) (((addr) & 0xFFFFF000) + 0x1000)
 extern uint32_t kend; //form link.ld
-void pmm_init(uint32_t mem_size);
+void memmgr_init(uint32_t mem_size);
 uint32_t allocate_block();
 void free_block(uint32_t blk_num);
 uint32_t first_free_block();

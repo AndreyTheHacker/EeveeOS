@@ -3,6 +3,7 @@
 #include "libstdio/keyboard.h"
 #include "libstdio/string.h"
 #include "multiboot.h"
+#include "memory/memmgr.h"
 #include <stdint.h>
 
 #define CHECK_FLAG(flags,bit)   ((flags) & (1 << (bit)))
@@ -82,6 +83,8 @@ void main(unsigned long magic, unsigned long addr) { // GRUB
 	kern_strcat(time,seconds);
 	kern_strcat(time,"\n");
 	kern_printc(time);
+	memmgr_init(mb->mem_upper*1024);
+	kern_printc("Memory manager initialized");
 	while(1){
 		kern_putc(kern_kbd_char(kern_getch()));
 		wait_ticks(0x02F45A90);
