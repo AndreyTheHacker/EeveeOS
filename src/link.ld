@@ -2,8 +2,8 @@ ENTRY(_start)
 
 SECTIONS
 {
-	. = 1M;
-	.text BLOCK(4K) : ALIGN(4K)
+	. = 8M;
+	.text ALIGN(4K) : AT (ADDR(.text))
 	{
 		*(.multiboot)
 		*(.text)
@@ -23,6 +23,7 @@ SECTIONS
 	{
 		*(COMMON)
 		*(.bss)
+		*(.initial_stack)
 	}
-	kend = .;
+	end = .;
 }

@@ -1,6 +1,6 @@
 #include "string.h"
 
-void kern_itoh(unsigned long n, char sign, char *outbuf)
+void itoh(unsigned long n, char sign, char *outbuf)
 {
     int i = 12; int j = 0;
     do{
@@ -15,21 +15,52 @@ void kern_itoh(unsigned long n, char sign, char *outbuf)
     outbuf[j] = 0;
 }
 
+unsigned int digit_count(int num)
+{
+  unsigned int count = 0;
+  if(num == 0)
+    return 1;
+  while(num > 0){
+    count++;
+    num = num/10;
+  }
+  return count;
+}
 
-int kern_strcpy(char *dst, const char *src) {
+void itoa(int num, char *number)
+{
+  int dgcount = digit_count(num);
+  int index = dgcount - 1;
+  char x;
+  if(num == 0 && dgcount == 1){
+    number[0] = '0';
+    number[1] = '\0';
+  }else{
+    while(num != 0){
+      x = num % 10;
+      number[index] = x + '0';
+      index--;
+      num = num / 10;
+    }
+    number[dgcount] = '\0';
+  }
+}
+
+
+int strcpy(char *dst, const char *src) {
     int i = 0;
     while ((*dst++ = *src++) != 0)
         i++;
     return i;
 }
-
+/*
 void kern_old_memcpy(char *source, char *dest, int nbytes) {
     for (int i = 0; i < nbytes; i++) {
         *(dest + i) = *(source + i);
     }
 }
-
-void *kern_memcpy(void *dst, void const *src, int n)
+*/
+void *memcpy(void *dst, void const *src, int n)
 {
     char * ret = dst;
     char * p = dst;
@@ -38,7 +69,7 @@ void *kern_memcpy(void *dst, void const *src, int n)
         *p++ = *q++;
     return ret;
 }
-
+/*
 int kern_old_strlen(const char* str) {
   unsigned int length = 0;
   while(str[length]==0){
@@ -46,24 +77,24 @@ int kern_old_strlen(const char* str) {
   }
   return length;
 }
-
-int kern_strlen(const char * s) {
+*/
+int strlen(const char * s) {
     int len = 0;
     while(*s++)
         len++;
     return len;
 }
 
-void *kern_memset(void *dst,char val, int n)
+void *memset(void *dst,char val, int n)
 {
     char *temp = dst;
     for(;n != 0; n--) *temp++ = val;
     return dst;
 }
 
-void kern_strcat(void *dest, const void *src) {
-    char * end = (char*)dest + kern_strlen(dest);
-    kern_memcpy((char*)end,(char*)src,kern_strlen((char*)src));
-    end = end + kern_strlen((char*)src);
+void strcat(void *dest, const void *src) {
+    char * end = (char*)dest + strlen(dest);
+    memcpy((char*)end,(char*)src,strlen((char*)src));
+    end = end + strlen((char*)src);
     //*end = '\0';
 }

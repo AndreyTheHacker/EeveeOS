@@ -10,7 +10,7 @@ GDT_LIB = src/gdt/
 GDT_LIB_OBJS = $(GDT_LIB)/desctab.o
 
 MEMORY = src/memory/
-MEM_OBJS = $(MEMORY)/memmgr.o
+MEM_OBJS = $(MEMORY)/memmgr.o $(MEMORY)/heap.o $(MEMORY)/paging_wrk.o
 
 MISC = src/misc/
-MISC_OBJS = $(MISC)/spinlock.o
+MISC_OBJS = $(MISC)/spinlock.o $(MISC)/misc.o $(MISC)/isr.o $(MISC)/interrupt.o $(MISC)/pic.o

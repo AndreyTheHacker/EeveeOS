@@ -14,7 +14,7 @@ all:
 	mkdir build/boot/grub/ -p || true
 	cp src/grub.cfg build/boot/grub/grub.cfg	
 	grub-mkrescue build/ -o total.iso
-	qemu-system-x86_64 -m 128M -s -cdrom total.iso
+	qemu-system-x86_64 -m 256M -s -cdrom total.iso
 
 clean:
 	rm build/* -r || true

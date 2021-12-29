@@ -114,7 +114,7 @@ void kern_putc(char c) {
 
 
 int kern_scroll_ln(int offset) {
-    kern_memcpy(
+    memcpy(
             (char *)(kern_vga_getpos_char(0,1) + VGA_TEXT), // source [vga:80]
             (char *)(kern_vga_getpos_char(0,0) + VGA_TEXT), // destin [vga:0]
            80*25*2 // 1920
@@ -160,35 +160,4 @@ void kern_cls(){
 		_kern_putc(' ',0,0);
 	}
 	vga_pos=0;
-}
-
-unsigned int kern_digit_count(int num)
-{
-  unsigned int count = 0;
-  if(num == 0)
-    return 1;
-  while(num > 0){
-    count++;
-    num = num/10;
-  }
-  return count;
-}
-
-void kern_itoa(int num, char *number)
-{
-  int dgcount = kern_digit_count(num);
-  int index = dgcount - 1;
-  char x;
-  if(num == 0 && dgcount == 1){
-    number[0] = '0';
-    number[1] = '\0';
-  }else{
-    while(num != 0){
-      x = num % 10;
-      number[index] = x + '0';
-      index--;
-      num = num / 10;
-    }
-    number[dgcount] = '\0';
-  }
 }

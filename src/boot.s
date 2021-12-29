@@ -20,12 +20,11 @@ TEMP_PAGE_DIRECTORY:
     .long 0x00000083
     .space (1024 - PDE_INDEX - 1)
 
-.section .initial_stack
+.section .initial_stack, "aw", @nobits
 .align 4
 
 stackBottom:
 	.skip 104856
-
 stackTop:
 
 .section .text

@@ -9,7 +9,7 @@
 #define GET_BUCKET32(i) (*((uint32_t*) &bitmap[i / 32]))
 
 #define BLOCK_ALIGN(addr) (((addr) & 0xFFFFF000) + 0x1000)
-extern uint32_t kend; //form link.ld
+extern uint32_t end; //from link.ld
 void memmgr_init(uint32_t mem_size);
 uint32_t allocate_block();
 void free_block(uint32_t blk_num);

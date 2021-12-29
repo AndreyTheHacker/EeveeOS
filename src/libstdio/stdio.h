@@ -3,6 +3,7 @@
 #define VGA_DATA_REGISTER 0x3d5
 #define VGA_OFFSET_LOW 0x0f
 #define VGA_OFFSET_HIGH 0x0e
+#define NULL 0
 //unsigned short kern_generate_vga(unsigned char c, unsigned short fc, unsigned short bc);
 void _kern_putc(char c, unsigned short fc, unsigned short bc);
 void kern_vga_putat(unsigned char c, int offset);
@@ -18,7 +19,5 @@ unsigned int kern_vga_getpos();
 unsigned int kern_vga_getpos_x();
 unsigned int kern_vga_getpos_y();
 int kern_vga_getpos_char(int x, int y);
-unsigned int kern_digit_count(int num);
-void kern_itoa(int num, char *number);
 void _kern_printc(char *c, unsigned short fc, unsigned short bc);
 int kern_scroll_ln(int offset);

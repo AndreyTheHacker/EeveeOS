@@ -1,7 +1,7 @@
 #include "memmgr.h"
 #include "../libstdio/string.h"
 
-uint8_t * bitmap = (uint8_t*)(&kend);
+uint8_t * bitmap = (uint8_t*)(&end);
 uint8_t * mem_start;
 uint32_t total_blocks;
 uint32_t bitmap_size;
@@ -11,7 +11,7 @@ void memmgr_init(uint32_t mem_size) {
     bitmap_size = total_blocks / BLOCKS_PER_BUCKET;
     if(bitmap_size * BLOCKS_PER_BUCKET < total_blocks)
         bitmap_size++;
-    kern_memset(bitmap, 0, bitmap_size);
+    memset(bitmap, 0, bitmap_size);
     mem_start = (uint8_t*)BLOCK_ALIGN(((uint32_t)(bitmap + bitmap_size)));
 }
 
