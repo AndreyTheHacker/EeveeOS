@@ -29,13 +29,16 @@ void main(unsigned long magic, unsigned long addr) { // GRUB
 	multiboot_info_t *mb;
 	mb = (multiboot_info_t *) addr;
 	kern_printc("It's EeveeOS! Evoi-evo!\n");
-	char memlw[32];
-	char mander[1]; // IT's JOKE?
-	char memup[32];
-	char loadaddr[32];
-	char mgc[32];
+	memmgr_init(mb->mem_upper*1024);
+	kheap_init(67108864/2,(67108864/2)+(48*1024),mb->mem_upper*1024); //32MB
+	kern_printc("Memory manager initialized\n");	
+	char *memlw = (char*)malloc(32);
+	char mander; // IT's JOKE?
+	char *memup = (char*)malloc(32);
+	char *loadaddr = (char*)malloc(32);
+	char *mgc = (char*)malloc(32);
 	char flgs[32];
-	char memmessage[256];
+	char *memmessage = (char*)malloc(256);
 	//kern_memset(memmessage, 0, 256);
 	itoa(mb->mem_lower, memlw);
 	itoa(mb->mem_upper, memup);
@@ -49,11 +52,16 @@ void main(unsigned long magic, unsigned long addr) { // GRUB
 		strcat(memmessage,memup);
     	strcat(memmessage,"KB of upper memory\n");
     	kern_printc(memmessage);
+		free(memmessage);
+		free(memlw);
+		free(memup);
+		free(loadaddr);
     }else{
     	kern_printc("EeveeOS can't check memory (is 0x00000002 flag set?) :(\n");
     }
 	kern_printc("Magic: ");
 	kern_printc(mgc);
+	free(mgc);
 	kern_printc("\n");
 	kern_printc("Flags: ");
 	kern_printc(flgs);
@@ -84,9 +92,6 @@ void main(unsigned long magic, unsigned long addr) { // GRUB
 	strcat(time,seconds);
 	strcat(time,"\n");
 	kern_printc(time);
-	memmgr_init(mb->mem_upper*1024);
-	kheap_init(67108864/2,(67108864/2)+(48*1024),mb->mem_upper*1024); //32MB
-	kern_printc("Memory manager initialized\n");
 	char *meleon = (char*)malloc(16);
 	meleon[0]='C';
 	meleon[1]='H';
@@ -102,7 +107,7 @@ void main(unsigned long magic, unsigned long addr) { // GRUB
 	free(meleon);
 	while(1){
 		kern_putc(kern_kbd_char(kern_getch()));
-		wait_ticks(0x02D45A90);
+		wait_ticks(0x02D45A00);
 	}
 	//__asm__ __volatile__("int $0x10"::"a"(0x4F02),"b"(0x118));  // What a hell? GRUB disallows to enter graphical mode
 	//__asm__ __volatile__("int $0x10"::"a"(0x0013));	// And this not working
